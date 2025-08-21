@@ -37,7 +37,7 @@ function parseArgs() {
   return config;
 }
 
-class MinIOStorageMCPServer {
+class MinIOMCPServer {
   private server: Server;
   private minioClient: MinIOStorageClient;
   private autoConnectConfig: any;
@@ -45,7 +45,7 @@ class MinIOStorageMCPServer {
   constructor() {
     this.server = new Server(
       {
-        name: 'minio-storage-mcp',
+        name: 'minio-mcp',
         version: '1.0.0',
       },
       {
@@ -659,16 +659,16 @@ class MinIOStorageMCPServer {
       try {
         const config = MinIOConfigSchema.parse(this.autoConnectConfig);
         await this.minioClient.connect(config);
-        console.error(`MinIO存储管理MCP服务器已启动并连接到 ${config.endPoint}:${config.port || 9000}`);
+        console.error(`MinIO MCP服务器已启动并连接到 ${config.endPoint}:${config.port || 9000}`);
       } catch (error) {
         console.error('自动连接MinIO失败:', error instanceof Error ? error.message : String(error));
-        console.error('MinIO存储管理MCP服务器已启动（未连接）');
+        console.error('MinIO MCP服务器已启动（未连接）');
       }
     } else {
-      console.error('MinIO存储管理MCP服务器已启动（未连接）');
+      console.error('MinIO MCP服务器已启动（未连接）');
     }
   }
 }
 
-const server = new MinIOStorageMCPServer();
+const server = new MinIOMCPServer();
 server.run().catch(console.error);

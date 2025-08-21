@@ -1,6 +1,6 @@
-# 🗄️ MinIO Storage MCP
+# 🗄️ MinIO MCP
 
-[![npm version](https://badge.fury.io/js/@pickstar-2002%2Fminio-storage-mcp.svg)](https://badge.fury.io/js/@pickstar-2002%2Fminio-storage-mcp)
+[![npm version](https://badge.fury.io/js/@pickstar-2002%2Fminio-mcp.svg)](https://badge.fury.io/js/@pickstar-2002%2Fminio-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -48,7 +48,7 @@
 ### 安装
 
 ```bash
-npm install -g @pickstar-2002/minio-storage-mcp@latest
+npm install -g @pickstar-2002/minio-mcp@latest
 ```
 
 ### 在 IDE 中配置
@@ -60,10 +60,10 @@ npm install -g @pickstar-2002/minio-storage-mcp@latest
 ```json
 {
   "mcpServers": {
-    "minio-storage": {
+    "minio-mcp": {
       "command": "npx",
       "args": [
-        "@pickstar-2002/minio-storage-mcp@latest",
+        "@pickstar-2002/minio-mcp@latest",
         "--endpoint=localhost",
         "--port=9000",
         "--access-key=minioadmin",
@@ -82,10 +82,10 @@ npm install -g @pickstar-2002/minio-storage-mcp@latest
 ```json
 {
   "mcpServers": {
-    "minio-storage": {
+    "minio-mcp": {
       "command": "npx",
       "args": [
-        "@pickstar-2002/minio-storage-mcp@latest",
+        "@pickstar-2002/minio-mcp@latest",
         "--endpoint=your-minio-server.com",
         "--port=9000",
         "--access-key=your-access-key",
@@ -103,9 +103,9 @@ npm install -g @pickstar-2002/minio-storage-mcp@latest
 ```json
 {
   "mcpServers": {
-    "minio-storage": {
+    "minio-mcp": {
       "command": "npx",
-      "args": ["@pickstar-2002/minio-storage-mcp@latest"],
+      "args": ["@pickstar-2002/minio-mcp@latest"],
       "env": {
         "MINIO_ENDPOINT": "localhost",
         "MINIO_PORT": "9000",

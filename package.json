@@ -1,11 +1,11 @@
 {
-  "name": "@pickstar-2002/minio-storage-mcp",
+  "name": "@pickstar-2002/minio-mcp",
   "version": "1.1.0",
   "description": "MinIO存储管理MCP工具 - 提供完整的MinIO对象存储管理功能",
   "main": "build/index.js",
   "type": "module",
   "bin": {
-    "minio-storage-mcp": "build/index.js"
+    "minio-mcp": "build/index.js"
   },
   "scripts": {
     "build": "tsc",
@@ -39,10 +39,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pickstar-2002/minio-storage-mcp.git"
+    "url": "https://github.com/pickstar-2002/minio-mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/pickstar-2002/minio-storage-mcp/issues"
+    "url": "https://github.com/pickstar-2002/minio-mcp/issues"
   },
-  "homepage": "https://github.com/pickstar-2002/minio-storage-mcp#readme"
+  "homepage": "https://github.com/pickstar-2002/minio-mcp#readme"
 }
