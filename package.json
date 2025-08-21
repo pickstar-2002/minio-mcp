@@ -1,0 +1,48 @@
+{
+  "name": "@pickstar-2002/minio-storage-mcp",
+  "version": "1.0.0",
+  "description": "MinIO存储管理MCP工具 - 提供完整的MinIO对象存储管理功能",
+  "main": "build/index.js",
+  "type": "module",
+  "bin": {
+    "minio-storage-mcp": "build/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node build/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "minio",
+    "storage",
+    "object-storage",
+    "file-management",
+    "ai-assistant",
+    "model-context-protocol",
+    "s3-compatible"
+  ],
+  "author": "pickstar-2002",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "minio": "^8.0.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pickstar-2002/minio-storage-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pickstar-2002/minio-storage-mcp/issues"
+  },
+  "homepage": "https://github.com/pickstar-2002/minio-storage-mcp#readme"
+}
