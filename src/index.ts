@@ -12,9 +12,35 @@ import { z } from 'zod';
 import { MinIOStorageClient } from './minio-client.js';
 import { MinIOConfigSchema } from './types.js';
 
+// 解析命令行参数
+function parseArgs() {
+  const args = process.argv.slice(2);
+  const config: any = {};
+  
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (arg.startsWith('--endpoint=')) {
+      config.endPoint = arg.split('=')[1];
+    } else if (arg.startsWith('--port=')) {
+      config.port = parseInt(arg.split('=')[1]);
+    } else if (arg.startsWith('--access-key=')) {
+      config.accessKey = arg.split('=')[1];
+    } else if (arg.startsWith('--secret-key=')) {
+      config.secretKey = arg.split('=')[1];
+    } else if (arg.startsWith('--use-ssl=')) {
+      config.useSSL = arg.split('=')[1] === 'true';
+    } else if (arg.startsWith('--region=')) {
+      config.region = arg.split('=')[1];
+    }
+  }
+  
+  return config;
+}
+
 class MinIOStorageMCPServer {
   private server: Server;
   private minioClient: MinIOStorageClient;
+  private autoConnectConfig: any;
 
   constructor() {
     this.server = new Server(
@@ -30,6 +56,7 @@ class MinIOStorageMCPServer {
     );
 
     this.minioClient = new MinIOStorageClient();
+    this.autoConnectConfig = parseArgs();
     this.setupToolHandlers();
   }
 
@@ -626,7 +653,20 @@ class MinIOStorageMCPServer {
   async run() {
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
-    console.error('MinIO存储管理MCP服务器已启动');
+    
+    // 如果提供了连接参数，自动连接
+    if (this.autoConnectConfig.endPoint && this.autoConnectConfig.accessKey && this.autoConnectConfig.secretKey) {
+      try {
+        const config = MinIOConfigSchema.parse(this.autoConnectConfig);
+        await this.minioClient.connect(config);
+        console.error(`MinIO存储管理MCP服务器已启动并连接到 ${config.endPoint}:${config.port || 9000}`);
+      } catch (error) {
+        console.error('自动连接MinIO失败:', error instanceof Error ? error.message : String(error));
+        console.error('MinIO存储管理MCP服务器已启动（未连接）');
+      }
+    } else {
+      console.error('MinIO存储管理MCP服务器已启动（未连接）');
+    }
   }
 }
 

@@ -13,6 +13,7 @@
 - ✅ 连接到 MinIO 服务器
 - ✅ 支持 SSL/非SSL 连接
 - ✅ 灵活的认证配置
+- ✅ 支持命令行参数自动连接
 
 ### 🗂️ 存储桶管理
 - ✅ 创建、删除存储桶
@@ -52,22 +53,29 @@ npm install -g @pickstar-2002/minio-storage-mcp@latest
 
 ### 在 IDE 中配置
 
-#### Cursor IDE
+#### 方式一：直接在 args 中传递连接参数（推荐）
 
-在 Cursor 设置中添加 MCP 服务器配置：
+**Cursor IDE / CodeBuddy**
 
 ```json
 {
   "mcpServers": {
     "minio-storage": {
       "command": "npx",
-      "args": ["@pickstar-2002/minio-storage-mcp@latest"]
+      "args": [
+        "@pickstar-2002/minio-storage-mcp@latest",
+        "--endpoint=localhost",
+        "--port=9000",
+        "--access-key=minioadmin",
+        "--secret-key=minioadmin",
+        "--use-ssl=false"
+      ]
     }
   }
 }
 ```
 
-#### Claude Desktop
+**Claude Desktop**
 
 在 `claude_desktop_config.json` 中添加：
 
@@ -76,39 +84,79 @@ npm install -g @pickstar-2002/minio-storage-mcp@latest
   "mcpServers": {
     "minio-storage": {
       "command": "npx",
-      "args": ["@pickstar-2002/minio-storage-mcp@latest"]
+      "args": [
+        "@pickstar-2002/minio-storage-mcp@latest",
+        "--endpoint=your-minio-server.com",
+        "--port=9000",
+        "--access-key=your-access-key",
+        "--secret-key=your-secret-key",
+        "--use-ssl=true",
+        "--region=us-east-1"
+      ]
     }
   }
 }
 ```
 
-#### 其他 MCP 兼容的 IDE
+#### 方式二：使用环境变量
 
-使用以下命令启动 MCP 服务器：
-
-```bash
-npx @pickstar-2002/minio-storage-mcp@latest
+```json
+{
+  "mcpServers": {
+    "minio-storage": {
+      "command": "npx",
+      "args": ["@pickstar-2002/minio-storage-mcp@latest"],
+      "env": {
+        "MINIO_ENDPOINT": "localhost",
+        "MINIO_PORT": "9000",
+        "MINIO_USE_SSL": "false",
+        "MINIO_ACCESS_KEY": "your-access-key",
+        "MINIO_SECRET_KEY": "your-secret-key"
+      }
+    }
+  }
+}
 ```
+
+### 🔧 命令行参数说明
+
+| 参数 | 说明 | 示例 | 必需 |
+|------|------|------|------|
+| `--endpoint` | MinIO 服务器地址 | `--endpoint=localhost` | ✅ |
+| `--port` | MinIO 服务器端口 | `--port=9000` | ❌ (默认9000) |
+| `--access-key` | 访问密钥 | `--access-key=minioadmin` | ✅ |
+| `--secret-key` | 秘密密钥 | `--secret-key=minioadmin` | ✅ |
+| `--use-ssl` | 是否使用SSL | `--use-ssl=true` | ❌ (默认false) |
+| `--region` | 区域设置 | `--region=us-east-1` | ❌ |
 
 ## 📖 使用指南
 
-### 1. 连接到 MinIO 服务器
+### 自动连接模式
 
-首先需要连接到您的 MinIO 服务器：
+当您在配置中提供了完整的连接参数时，MCP 服务器会自动连接到 MinIO 服务器，您可以直接开始使用：
+
+```
+# 直接开始操作，无需手动连接
+请列出所有存储桶
+
+# 创建存储桶
+请创建一个名为 "my-documents" 的存储桶
+
+# 上传文件
+请将本地文件 "/path/to/file.pdf" 上传到 "my-documents" 存储桶中
+```
+
+### 手动连接模式
+
+如果没有提供连接参数，您需要先手动连接：
 
 ```
 请帮我连接到 MinIO 服务器，地址是 localhost:9000，访问密钥是 minioadmin，秘密密钥是 minioadmin
 ```
 
-### 2. 基本操作示例
+### 基本操作示例
 
 ```
-# 创建存储桶
-请创建一个名为 "my-documents" 的存储桶
-
-# 上传文件
-请将本地文件 "/path/to/file.pdf" 上传到 "my-documents" 存储桶中，对象名为 "documents/file.pdf"
-
 # 列出对象
 请列出 "my-documents" 存储桶中的所有对象
 
@@ -117,6 +165,9 @@ npx @pickstar-2002/minio-storage-mcp@latest
 
 # 生成预签名 URL
 请为 "my-documents/documents/file.pdf" 生成一个有效期为 1 小时的下载链接
+
+# 获取存储统计
+请显示存储使用统计信息
 ```
 
 ## 🛠️ 可用工具
@@ -159,41 +210,6 @@ npx @pickstar-2002/minio-storage-mcp@latest
 - **MinIO 客户端**: minio
 - **类型验证**: zod
 - **Node.js 版本**: >= 18.0.0
-
-## 📝 配置示例
-
-### 环境变量配置
-
-您可以通过环境变量预设 MinIO 连接信息：
-
-```bash
-export MINIO_ENDPOINT=localhost
-export MINIO_PORT=9000
-export MINIO_USE_SSL=false
-export MINIO_ACCESS_KEY=your-access-key
-export MINIO_SECRET_KEY=your-secret-key
-export MINIO_REGION=us-east-1
-```
-
-### MCP 配置文件示例
-
-```json
-{
-  "mcpServers": {
-    "minio-storage": {
-      "command": "npx",
-      "args": ["@pickstar-2002/minio-storage-mcp@latest"],
-      "env": {
-        "MINIO_ENDPOINT": "localhost",
-        "MINIO_PORT": "9000",
-        "MINIO_USE_SSL": "false",
-        "MINIO_ACCESS_KEY": "your-access-key",
-        "MINIO_SECRET_KEY": "your-secret-key"
-      }
-    }
-  }
-}
-```
 
 ## 🤝 贡献
 

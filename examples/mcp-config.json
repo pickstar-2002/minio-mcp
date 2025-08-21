@@ -2,15 +2,14 @@
   "mcpServers": {
     "minio-storage": {
       "command": "npx",
-      "args": ["@pickstar-2002/minio-storage-mcp@latest"],
-      "env": {
-        "MINIO_ENDPOINT": "localhost",
-        "MINIO_PORT": "9000",
-        "MINIO_USE_SSL": "false",
-        "MINIO_ACCESS_KEY": "your-access-key",
-        "MINIO_SECRET_KEY": "your-secret-key",
-        "MINIO_REGION": "us-east-1"
-      }
+      "args": [
+        "@pickstar-2002/minio-storage-mcp@latest",
+        "--endpoint=localhost",
+        "--port=9000",
+        "--access-key=minioadmin",
+        "--secret-key=minioadmin",
+        "--use-ssl=false"
+      ]
     }
   }
 }
