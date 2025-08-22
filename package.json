@@ -4,6 +4,9 @@
   "description": "MinIO存储管理MCP工具 - 提供完整的MinIO对象存储管理功能",
   "main": "build/index.js",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
     "minio-mcp": "build/index.js"
   },
